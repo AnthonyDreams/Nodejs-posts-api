@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const postController = require('../controllers/PostController');
-const upload = require('../core/multerConfig.js').getStorage('s3')
+const upload = require('../core/multerConfig.js').getStorage()
 
 router.route('/').get(postController.getAllPost)
                  .post(upload.any(), postController.createPost)

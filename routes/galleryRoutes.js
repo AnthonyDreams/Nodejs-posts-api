@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const GalleryController = require('../controllers/GalleryController');
 const upload = require('../core/multerConfig.js').getStorage()
-const uploads3 = require('../core/multerConfig.js').getStorage('s3')
 
 
 
