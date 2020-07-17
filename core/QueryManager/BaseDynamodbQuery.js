@@ -128,7 +128,8 @@ class QueryManager {
               
 
               for (let schema of relatedSchemas){
-                  if(schema && Object.keys(schema).length != 0){
+                  let key = Object.keys(schema)
+                  if(schema && key.length != 0 && Object.keys(schema[key].sanitizedData).length != 0){
                     await this.create(schema)
 
                   }
