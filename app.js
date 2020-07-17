@@ -1,13 +1,15 @@
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
-const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cors = require('cors');
 
 
-const userRoutes = require('./routes/userRoutes');
+const postRoutes = require('./routes/postRoutes');
+const galleryRoutes = require('./routes/galleryRoutes');
+
+
 const globalErrHandler = require('./controllers/errorController');
 const AppError = require('./utils/appError');
 const app = express();
@@ -27,12 +29,12 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 // Body parser, reading data from body into req.body
+app.use(express.urlencoded({extended: true,limit: '50mb'}));
 app.use(express.json({
-    limit: '15kb'
+    limit: '50mb'
 }));
 
-// Data sanitization against Nosql query injection
-app.use(mongoSanitize());
+
 
 // Data sanitization against XSS(clean user input from malicious HTML code)
 app.use(xss());
@@ -42,7 +44,10 @@ app.use(hpp());
 
 
 // Routes
-app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/posts', postRoutes);
+app.use('/api/v1/gallery', galleryRoutes);
+
+
 
 // handle undefined Routes
 app.use('*', (req, res, next) => {

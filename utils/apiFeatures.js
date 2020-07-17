@@ -20,6 +20,15 @@ class APIFeatures {
         this.query = this.query.skip(skip).limit(limit);
         return this;
     }
+
+
+    async paginateDynamoDb(){
+        let lastKey = {
+            [this.query.schema.mainKey()] : this.queryString.after
+        } 
+        return await this.query.all({'ExclusiveStartKey':lastKey})
+        
+    }
 }
 
 module.exports = APIFeatures;
